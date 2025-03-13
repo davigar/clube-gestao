@@ -1,0 +1,41 @@
+version: '3.8'
+
+services:
+  clube-gestao:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: clube-gestao
+    restart: unless-stopped
+    ports:
+      - "58981:58981"  # Backend
+      - "54797:54797"  # Frontend
+    environment:
+      - NODE_ENV=production
+      - PORT=58981
+      - FRONTEND_PORT=54797
+    volumes:
+      - clube-data:/app/data
+    networks:
+      - clube-network
+
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    restart: unless-stopped
+    environment:
+      - MONGO_INITDB_DATABASE=clube-gestao
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb-data:/data/db
+    networks:
+      - clube-network
+
+networks:
+  clube-network:
+    driver: bridge
+
+volumes:
+  clube-data:
+  mongodb-data:

@@ -51,6 +51,8 @@ Este projeto foi desenvolvido para atender às necessidades de clubes esportivos
 
 ## Instalação
 
+### Método 1: Instalação Local
+
 1. Clone o repositório:
 ```
 git clone https://github.com/seu-usuario/clube-gestao.git
@@ -68,6 +70,34 @@ npm run install:all
 4. Inicie o servidor de desenvolvimento:
 ```
 npm run dev
+```
+
+### Método 2: Instalação com Docker (Recomendado)
+
+1. Clone o repositório:
+```
+git clone https://github.com/seu-usuario/clube-gestao.git
+cd clube-gestao
+```
+
+2. Execute o script de implantação:
+```
+./deploy.sh
+```
+
+Este script irá:
+- Verificar e instalar o Docker e o Docker Compose, se necessário
+- Construir e iniciar os contêineres
+- Configurar o MongoDB
+- Iniciar o backend e o frontend
+
+3. Acesse o sistema:
+   - Backend: http://localhost:58981
+   - Frontend: http://localhost:54797
+
+4. Para parar e limpar os contêineres:
+```
+./cleanup.sh
 ```
 
 ## Estrutura do Projeto

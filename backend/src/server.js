@@ -2,6 +2,7 @@ const express = require('express');
 const cors = require('cors');
 const helmet = require('helmet');
 const dotenv = require('dotenv');
+const mongoose = require('mongoose');
 
 // Carregar variáveis de ambiente
 dotenv.config();
@@ -35,10 +36,26 @@ app.get('/', (req, res) => {
   res.send('API do Sistema de Gestão de Clube está funcionando!');
 });
 
-// Iniciar servidor sem banco de dados para demonstração
-console.log('Iniciando servidor em modo de demonstração (sem banco de dados)');
-app.listen(PORT, '0.0.0.0', () => {
-  console.log(`Servidor rodando na porta ${PORT}`);
-});
+// Função para conectar ao MongoDB com retry
+const connectWithRetry = () => {
+  console.log('Tentando conectar ao MongoDB...');
+  mongoose
+    .connect(process.env.MONGODB_URI || 'mongodb://mongodb:27017/clube-gestao')
+    .then(() => {
+      console.log('Conectado ao MongoDB com sucesso!');
+      // Iniciar servidor após conexão bem-sucedida
+      app.listen(PORT, '0.0.0.0', () => {
+        console.log(`Servidor rodando na porta ${PORT}`);
+      });
+    })
+    .catch(err => {
+      console.error('Erro ao conectar ao MongoDB:', err);
+      console.log('Tentando reconectar em 5 segundos...');
+      setTimeout(connectWithRetry, 5000);
+    });
+};
+
+// Iniciar tentativa de conexão
+connectWithRetry();
 
 module.exports = app;

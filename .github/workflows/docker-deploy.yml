@@ -1,0 +1,45 @@
+name: Docker Deployment
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+        
+      - name: Build and start containers
+        run: |
+          docker-compose build
+          docker-compose up -d
+          
+      - name: Wait for services to start
+        run: |
+          echo "Waiting for services to start..."
+          sleep 30
+          
+      - name: Check running containers
+        run: docker-compose ps
+        
+      - name: Check backend logs
+        run: docker-compose logs clube-gestao
+        
+      - name: Check MongoDB logs
+        run: docker-compose logs mongodb
+        
+      - name: Run health check
+        run: |
+          curl -f http://localhost:58981/ || exit 1
+          echo "Backend is running!"
+          curl -f http://localhost:54797/ || exit 1
+          echo "Frontend is running!"
