@@ -1,0 +1,76 @@
+name: Lint Code
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+
+jobs:
+  lint-backend:
+    name: Lint Backend
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'backend/package-lock.json'
+          
+      - name: Install dependencies
+        run: cd backend && npm ci
+        
+      - name: Install ESLint
+        run: cd backend && npm install eslint@8.56.0 --save-dev
+        
+      - name: Create ESLint config if not exists
+        run: |
+          if [ ! -f backend/.eslintrc.json ]; then
+            echo '{
+              "env": {
+                "node": true,
+                "es6": true
+              },
+              "extends": ["eslint:recommended"],
+              "parserOptions": {
+                "ecmaVersion": 2020
+              },
+              "rules": {
+                "no-console": "off",
+                "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+                "semi": ["error", "always"],
+                "quotes": ["warn", "single"],
+                "indent": ["warn", 2],
+                "comma-dangle": ["warn", "always-multiline"]
+              }
+            }' > backend/.eslintrc.json
+          fi
+        
+      - name: Run ESLint
+        run: cd backend && npx eslint . --ext .js
+
+  lint-frontend:
+    name: Lint Frontend
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+          
+      - name: Install dependencies
+        run: cd frontend && npm ci
+        
+      - name: Run ESLint
+        run: cd frontend && npm run lint

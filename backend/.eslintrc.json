@@ -1,0 +1,18 @@
+{
+  "env": {
+    "node": true,
+    "es6": true
+  },
+  "extends": ["eslint:recommended"],
+  "parserOptions": {
+    "ecmaVersion": 2020
+  },
+  "rules": {
+    "no-console": "off",
+    "no-unused-vars": ["warn", { "argsIgnorePattern": "^_" }],
+    "semi": ["error", "always"],
+    "quotes": ["warn", "single"],
+    "indent": ["warn", 2],
+    "comma-dangle": ["warn", "always-multiline"]
+  }
+}
