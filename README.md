@@ -2,6 +2,10 @@
 
 Um sistema completo para gestão de clubes esportivos e recreativos, com funcionalidades de gestão de espaços, membros, campeonatos e pagamentos.
 
+## Visão Geral
+
+Este projeto foi desenvolvido para atender às necessidades de clubes esportivos e recreativos, oferecendo uma solução completa para gerenciamento de todas as operações do dia a dia.
+
 ## Funcionalidades
 
 ### Gestão de Espaços
