@@ -22,6 +22,8 @@ export default function UserEditPage({ params }: UserEditPageProps) {
     name: '',
     email: '',
     phone: '',
+    cpf: '',
+    age: '',
     role: 'member',
     status: 'active',
     address: {
@@ -32,8 +34,11 @@ export default function UserEditPage({ params }: UserEditPageProps) {
       country: 'Brasil',
     },
     memberSince: '',
+    createdAt: '',
+    deactivatedAt: '',
     lastPayment: '',
     membershipType: 'standard',
+    mainMemberId: null,
   });
 
   // Estado para controlar o carregamento
@@ -59,6 +64,8 @@ export default function UserEditPage({ params }: UserEditPageProps) {
             name: 'João Silva', 
             email: 'joao@exemplo.com', 
             phone: '(11) 98765-4321',
+            cpf: '123.456.789-00',
+            age: '35',
             role: 'member', 
             status: 'active',
             address: {
@@ -69,14 +76,19 @@ export default function UserEditPage({ params }: UserEditPageProps) {
               country: 'Brasil',
             },
             memberSince: '15/03/2023',
+            createdAt: '15/03/2023',
+            deactivatedAt: '',
             lastPayment: '10/04/2023',
             membershipType: 'standard',
+            mainMemberId: null,
           },
           { 
             id: 2, 
             name: 'Maria Oliveira', 
             email: 'maria@exemplo.com', 
             phone: '(11) 91234-5678',
+            cpf: '987.654.321-00',
+            age: '28',
             role: 'member', 
             status: 'active',
             address: {
@@ -87,14 +99,19 @@ export default function UserEditPage({ params }: UserEditPageProps) {
               country: 'Brasil',
             },
             memberSince: '20/01/2023',
+            createdAt: '20/01/2023',
+            deactivatedAt: '',
             lastPayment: '05/04/2023',
             membershipType: 'premium',
+            mainMemberId: null,
           },
           { 
             id: 3, 
             name: 'Carlos Santos', 
             email: 'carlos@exemplo.com', 
             phone: '(11) 97777-8888',
+            cpf: '111.222.333-44',
+            age: '42',
             role: 'instructor', 
             status: 'active',
             address: {
@@ -105,14 +122,19 @@ export default function UserEditPage({ params }: UserEditPageProps) {
               country: 'Brasil',
             },
             memberSince: '10/02/2022',
+            createdAt: '10/02/2022',
+            deactivatedAt: '',
             lastPayment: '15/04/2023',
             membershipType: 'instructor',
+            mainMemberId: null,
           },
           { 
             id: 4, 
             name: 'Ana Souza', 
             email: 'ana@exemplo.com', 
             phone: '(11) 95555-6666',
+            cpf: '444.555.666-77',
+            age: '31',
             role: 'member', 
             status: 'inactive',
             address: {
@@ -123,14 +145,19 @@ export default function UserEditPage({ params }: UserEditPageProps) {
               country: 'Brasil',
             },
             memberSince: '05/06/2022',
+            createdAt: '05/06/2022',
+            deactivatedAt: '15/01/2023',
             lastPayment: '10/01/2023',
             membershipType: 'standard',
+            mainMemberId: null,
           },
           { 
             id: 5, 
             name: 'Administrador', 
             email: 'admin@clubegestao.com', 
             phone: '(11) 99999-0000',
+            cpf: '000.111.222-33',
+            age: '45',
             role: 'admin', 
             status: 'active',
             address: {
@@ -141,8 +168,57 @@ export default function UserEditPage({ params }: UserEditPageProps) {
               country: 'Brasil',
             },
             memberSince: '01/01/2022',
+            createdAt: '01/01/2022',
+            deactivatedAt: '',
             lastPayment: 'N/A',
             membershipType: 'admin',
+            mainMemberId: null,
+          },
+          { 
+            id: 6, 
+            name: 'Pedro Silva', 
+            email: 'pedro@exemplo.com', 
+            phone: '(11) 92222-3333',
+            cpf: '555.666.777-88',
+            age: '10',
+            role: 'member', 
+            status: 'active',
+            address: {
+              street: 'Rua das Flores, 123',
+              city: 'São Paulo',
+              state: 'SP',
+              zipCode: '01234-567',
+              country: 'Brasil',
+            },
+            memberSince: '15/03/2023',
+            createdAt: '15/03/2023',
+            deactivatedAt: '',
+            lastPayment: '10/04/2023',
+            membershipType: 'family',
+            mainMemberId: 1,
+          },
+          { 
+            id: 7, 
+            name: 'Julia Silva', 
+            email: 'julia@exemplo.com', 
+            phone: '(11) 94444-5555',
+            cpf: '888.999.000-11',
+            age: '8',
+            role: 'member', 
+            status: 'active',
+            address: {
+              street: 'Rua das Flores, 123',
+              city: 'São Paulo',
+              state: 'SP',
+              zipCode: '01234-567',
+              country: 'Brasil',
+            },
+            memberSince: '15/03/2023',
+            createdAt: '15/03/2023',
+            deactivatedAt: '',
+            lastPayment: '10/04/2023',
+            membershipType: 'family',
+            mainMemberId: 1,
           },
         ];
         
@@ -385,6 +461,37 @@ export default function UserEditPage({ params }: UserEditPageProps) {
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
+                        CPF
+                      </label>
+                      <input
+                        type="text"
+                        name="cpf"
+                        value={user.cpf}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        placeholder="000.000.000-00"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Idade
+                      </label>
+                      <input
+                        type="number"
+                        name="age"
+                        value={user.age}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        min="0"
+                        max="120"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                         Função
                       </label>
                       <select
@@ -416,22 +523,90 @@ export default function UserEditPage({ params }: UserEditPageProps) {
                     </div>
                   </div>
                   
-                  <div>
-                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                      Tipo de Associação
-                    </label>
-                    <select
-                      name="membershipType"
-                      value={user.membershipType}
-                      onChange={handleChange}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    >
-                      <option value="standard">Padrão</option>
-                      <option value="premium">Premium</option>
-                      <option value="family">Família</option>
-                      <option value="instructor">Instrutor</option>
-                      <option value="admin">Administrador</option>
-                    </select>
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Tipo de Associação
+                      </label>
+                      <select
+                        name="membershipType"
+                        value={user.membershipType}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="standard">Padrão</option>
+                        <option value="premium">Premium</option>
+                        <option value="family">Família</option>
+                        <option value="instructor">Instrutor</option>
+                        <option value="admin">Administrador</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Membro Titular
+                      </label>
+                      <select
+                        name="mainMemberId"
+                        value={user.mainMemberId || ''}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={user.membershipType !== 'family'}
+                      >
+                        <option value="">Selecione um membro titular</option>
+                        <option value="1">João Silva</option>
+                        <option value="2">Maria Oliveira</option>
+                        <option value="3">Carlos Santos</option>
+                      </select>
+                      <p className="text-xs text-gray-500 mt-1">
+                        {user.membershipType !== 'family' ? 'Disponível apenas para membros do tipo Família' : ''}
+                      </p>
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Data de Inclusão
+                      </label>
+                      <input
+                        type="date"
+                        name="createdAt"
+                        value={user.createdAt ? new Date(user.createdAt.split('/').reverse().join('-')).toISOString().split('T')[0] : ''}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Data de Início
+                      </label>
+                      <input
+                        type="date"
+                        name="memberSince"
+                        value={user.memberSince ? new Date(user.memberSince.split('/').reverse().join('-')).toISOString().split('T')[0] : ''}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Data de Desativação
+                      </label>
+                      <input
+                        type="date"
+                        name="deactivatedAt"
+                        value={user.deactivatedAt ? new Date(user.deactivatedAt.split('/').reverse().join('-')).toISOString().split('T')[0] : ''}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={user.status !== 'inactive'}
+                      />
+                      <p className="text-xs text-gray-500 mt-1">
+                        {user.status !== 'inactive' ? 'Disponível apenas para usuários inativos' : ''}
+                      </p>
+                    </div>
                   </div>
                   
                   <h3 className="text-lg font-medium text-gray-800 pt-4">Endereço</h3>

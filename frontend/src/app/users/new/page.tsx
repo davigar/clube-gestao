@@ -14,6 +14,8 @@ export default function NewUserPage() {
     name: '',
     email: '',
     phone: '',
+    cpf: '',
+    age: '',
     role: 'member',
     status: 'active',
     address: {
@@ -23,7 +25,11 @@ export default function NewUserPage() {
       zipCode: '',
       country: 'Brasil',
     },
+    memberSince: '',
+    createdAt: new Date().toISOString().split('T')[0],
+    deactivatedAt: '',
     membershipType: 'standard',
+    mainMemberId: null,
   });
   
   // Estado para controlar mensagens de erro/sucesso
@@ -172,6 +178,37 @@ export default function NewUserPage() {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
+                    CPF
+                  </label>
+                  <input
+                    type="text"
+                    name="cpf"
+                    value={user.cpf}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    placeholder="000.000.000-00"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Idade
+                  </label>
+                  <input
+                    type="number"
+                    name="age"
+                    value={user.age}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    min="0"
+                    max="120"
+                  />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Função
                   </label>
                   <select
@@ -203,22 +240,90 @@ export default function NewUserPage() {
                 </div>
               </div>
               
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Tipo de Associação
-                </label>
-                <select
-                  name="membershipType"
-                  value={user.membershipType}
-                  onChange={handleChange}
-                  className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="standard">Padrão</option>
-                  <option value="premium">Premium</option>
-                  <option value="family">Família</option>
-                  <option value="instructor">Instrutor</option>
-                  <option value="admin">Administrador</option>
-                </select>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Tipo de Associação
+                  </label>
+                  <select
+                    name="membershipType"
+                    value={user.membershipType}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="standard">Padrão</option>
+                    <option value="premium">Premium</option>
+                    <option value="family">Família</option>
+                    <option value="instructor">Instrutor</option>
+                    <option value="admin">Administrador</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Membro Titular
+                  </label>
+                  <select
+                    name="mainMemberId"
+                    value={user.mainMemberId || ''}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={user.membershipType !== 'family'}
+                  >
+                    <option value="">Selecione um membro titular</option>
+                    <option value="1">João Silva</option>
+                    <option value="2">Maria Oliveira</option>
+                    <option value="3">Carlos Santos</option>
+                  </select>
+                  <p className="text-xs text-gray-500 mt-1">
+                    {user.membershipType !== 'family' ? 'Disponível apenas para membros do tipo Família' : ''}
+                  </p>
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Data de Inclusão
+                  </label>
+                  <input
+                    type="date"
+                    name="createdAt"
+                    value={user.createdAt}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Data de Início
+                  </label>
+                  <input
+                    type="date"
+                    name="memberSince"
+                    value={user.memberSince}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Data de Desativação
+                  </label>
+                  <input
+                    type="date"
+                    name="deactivatedAt"
+                    value={user.deactivatedAt}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={user.status !== 'inactive'}
+                  />
+                  <p className="text-xs text-gray-500 mt-1">
+                    {user.status !== 'inactive' ? 'Disponível apenas para usuários inativos' : ''}
+                  </p>
+                </div>
               </div>
               
               <h3 className="text-lg font-medium text-gray-800 pt-4">Endereço</h3>

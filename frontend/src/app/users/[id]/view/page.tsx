@@ -15,7 +15,12 @@ import {
   FaArrowLeft,
   FaMoneyBillWave,
   FaTrophy,
-  FaSwimmer
+  FaSwimmer,
+  FaAddressCard,
+  FaBirthdayCake,
+  FaCalendarCheck,
+  FaCalendarTimes,
+  FaUserFriends
 } from 'react-icons/fa';
 
 interface UserViewPageProps {
@@ -30,6 +35,9 @@ export default function UserViewPage({ params }: UserViewPageProps) {
   
   // Estado para armazenar os dados do usuário
   const [user, setUser] = useState<any>(null);
+  
+  // Estado para armazenar os dados do membro titular (se aplicável)
+  const [mainMember, setMainMember] = useState<any>(null);
 
   // Estado para controlar o carregamento
   const [loading, setLoading] = useState(true);
@@ -54,6 +62,8 @@ export default function UserViewPage({ params }: UserViewPageProps) {
             name: 'João Silva', 
             email: 'joao@exemplo.com', 
             phone: '(11) 98765-4321',
+            cpf: '123.456.789-00',
+            age: '35',
             role: 'member', 
             status: 'active',
             address: {
@@ -64,8 +74,11 @@ export default function UserViewPage({ params }: UserViewPageProps) {
               country: 'Brasil',
             },
             memberSince: '15/03/2023',
+            createdAt: '15/03/2023',
+            deactivatedAt: '',
             lastPayment: '10/04/2023',
             membershipType: 'standard',
+            mainMemberId: null,
             activities: ['Natação', 'Futebol'],
             championships: [
               { name: 'Campeonato de Natação 2023', position: '3º lugar' },
@@ -82,6 +95,8 @@ export default function UserViewPage({ params }: UserViewPageProps) {
             name: 'Maria Oliveira', 
             email: 'maria@exemplo.com', 
             phone: '(11) 91234-5678',
+            cpf: '987.654.321-00',
+            age: '28',
             role: 'member', 
             status: 'active',
             address: {
@@ -92,8 +107,11 @@ export default function UserViewPage({ params }: UserViewPageProps) {
               country: 'Brasil',
             },
             memberSince: '20/01/2023',
+            createdAt: '20/01/2023',
+            deactivatedAt: '',
             lastPayment: '05/04/2023',
             membershipType: 'premium',
+            mainMemberId: null,
             activities: ['Tênis', 'Academia'],
             championships: [
               { name: 'Torneio de Tênis - Fevereiro/2023', position: '1º lugar' }
@@ -109,6 +127,8 @@ export default function UserViewPage({ params }: UserViewPageProps) {
             name: 'Carlos Santos', 
             email: 'carlos@exemplo.com', 
             phone: '(11) 97777-8888',
+            cpf: '111.222.333-44',
+            age: '42',
             role: 'instructor', 
             status: 'active',
             address: {
@@ -119,8 +139,11 @@ export default function UserViewPage({ params }: UserViewPageProps) {
               country: 'Brasil',
             },
             memberSince: '10/02/2022',
+            createdAt: '10/02/2022',
+            deactivatedAt: '',
             lastPayment: '15/04/2023',
             membershipType: 'instructor',
+            mainMemberId: null,
             activities: ['Natação (Instrutor)', 'Hidroginástica (Instrutor)'],
             championships: [],
             payments: [
@@ -134,6 +157,8 @@ export default function UserViewPage({ params }: UserViewPageProps) {
             name: 'Ana Souza', 
             email: 'ana@exemplo.com', 
             phone: '(11) 95555-6666',
+            cpf: '444.555.666-77',
+            age: '31',
             role: 'member', 
             status: 'inactive',
             address: {
@@ -144,8 +169,11 @@ export default function UserViewPage({ params }: UserViewPageProps) {
               country: 'Brasil',
             },
             memberSince: '05/06/2022',
+            createdAt: '05/06/2022',
+            deactivatedAt: '15/01/2023',
             lastPayment: '10/01/2023',
             membershipType: 'standard',
+            mainMemberId: null,
             activities: ['Vôlei', 'Pilates'],
             championships: [
               { name: 'Torneio de Vôlei - Dezembro/2022', position: '2º lugar' }
@@ -162,6 +190,8 @@ export default function UserViewPage({ params }: UserViewPageProps) {
             name: 'Administrador', 
             email: 'admin@clubegestao.com', 
             phone: '(11) 99999-0000',
+            cpf: '000.111.222-33',
+            age: '45',
             role: 'admin', 
             status: 'active',
             address: {
@@ -172,9 +202,64 @@ export default function UserViewPage({ params }: UserViewPageProps) {
               country: 'Brasil',
             },
             memberSince: '01/01/2022',
+            createdAt: '01/01/2022',
+            deactivatedAt: '',
             lastPayment: 'N/A',
             membershipType: 'admin',
+            mainMemberId: null,
             activities: ['Administração do Sistema'],
+            championships: [],
+            payments: []
+          },
+          { 
+            id: 6, 
+            name: 'Pedro Silva', 
+            email: 'pedro@exemplo.com', 
+            phone: '(11) 92222-3333',
+            cpf: '555.666.777-88',
+            age: '10',
+            role: 'member', 
+            status: 'active',
+            address: {
+              street: 'Rua das Flores, 123',
+              city: 'São Paulo',
+              state: 'SP',
+              zipCode: '01234-567',
+              country: 'Brasil',
+            },
+            memberSince: '15/03/2023',
+            createdAt: '15/03/2023',
+            deactivatedAt: '',
+            lastPayment: '10/04/2023',
+            membershipType: 'family',
+            mainMemberId: 1,
+            activities: ['Natação', 'Futebol Infantil'],
+            championships: [],
+            payments: []
+          },
+          { 
+            id: 7, 
+            name: 'Julia Silva', 
+            email: 'julia@exemplo.com', 
+            phone: '(11) 94444-5555',
+            cpf: '888.999.000-11',
+            age: '8',
+            role: 'member', 
+            status: 'active',
+            address: {
+              street: 'Rua das Flores, 123',
+              city: 'São Paulo',
+              state: 'SP',
+              zipCode: '01234-567',
+              country: 'Brasil',
+            },
+            memberSince: '15/03/2023',
+            createdAt: '15/03/2023',
+            deactivatedAt: '',
+            lastPayment: '10/04/2023',
+            membershipType: 'family',
+            mainMemberId: 1,
+            activities: ['Natação Infantil', 'Ballet'],
             championships: [],
             payments: []
           },
@@ -184,6 +269,14 @@ export default function UserViewPage({ params }: UserViewPageProps) {
         
         if (userData) {
           setUser(userData);
+          
+          // Se o usuário tiver um membro titular, buscar os dados do membro titular
+          if (userData.mainMemberId) {
+            const mainMemberData = mockUsers.find(u => u.id === userData.mainMemberId);
+            if (mainMemberData) {
+              setMainMember(mainMemberData);
+            }
+          }
         } else {
           setError('Usuário não encontrado');
           setTimeout(() => router.push('/users'), 2000);
@@ -344,10 +437,36 @@ export default function UserViewPage({ params }: UserViewPageProps) {
                   <FaPhone className="text-gray-500 mr-2" />
                   <span className="text-sm text-gray-600">{user.phone}</span>
                 </div>
-                <div className="flex items-center">
+                <div className="flex items-center mb-3">
                   <FaEnvelope className="text-gray-500 mr-2" />
                   <span className="text-sm text-gray-600">{user.email}</span>
                 </div>
+                <div className="flex items-center mb-3">
+                  <FaAddressCard className="text-gray-500 mr-2" />
+                  <span className="text-sm text-gray-600">CPF: {user.cpf}</span>
+                </div>
+                <div className="flex items-center mb-3">
+                  <FaBirthdayCake className="text-gray-500 mr-2" />
+                  <span className="text-sm text-gray-600">Idade: {user.age} anos</span>
+                </div>
+                <div className="flex items-center mb-3">
+                  <FaCalendarCheck className="text-gray-500 mr-2" />
+                  <span className="text-sm text-gray-600">Data de Inclusão: {user.createdAt}</span>
+                </div>
+                {user.deactivatedAt && (
+                  <div className="flex items-center mb-3">
+                    <FaCalendarTimes className="text-gray-500 mr-2" />
+                    <span className="text-sm text-gray-600">Data de Desativação: {user.deactivatedAt}</span>
+                  </div>
+                )}
+                {user.mainMemberId && mainMember && (
+                  <div className="flex items-center mb-3">
+                    <FaUserFriends className="text-gray-500 mr-2" />
+                    <span className="text-sm text-gray-600">
+                      Membro Titular: <a href={`/users/${mainMember.id}/view`} className="text-blue-600 hover:underline">{mainMember.name}</a>
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
           </Card>
