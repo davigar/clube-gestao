@@ -36,11 +36,15 @@ const MainLayout = ({ children }: MainLayoutProps) => {
 
   return (
     <div className="flex h-screen bg-gray-100">
+      {/* Sidebar */}
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
       
-      <div className="flex-1 flex flex-col overflow-hidden transition-all duration-300 lg:ml-64">
+      {/* Main content */}
+      <div className="flex-1 flex flex-col lg:ml-64 transition-all duration-300">
+        {/* Header */}
         <Header toggleSidebar={toggleSidebar} />
         
+        {/* Page content */}
         <main className="flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 p-6">
           {children}
         </main>

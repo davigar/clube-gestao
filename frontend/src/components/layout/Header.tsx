@@ -14,9 +14,10 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
       {/* Left side - Menu toggle and title */}
       <div className="flex items-center">
         <button 
-          className="text-gray-600 focus:outline-none lg:hidden p-2 rounded hover:bg-gray-100"
+          className="text-gray-600 focus:outline-none lg:hidden p-2 rounded hover:bg-gray-100 active:bg-gray-200"
           onClick={toggleSidebar}
           aria-label="Toggle menu"
+          type="button"
         >
           <FaBars size={20} />
         </button>

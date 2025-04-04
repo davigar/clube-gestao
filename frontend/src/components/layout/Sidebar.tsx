@@ -46,7 +46,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
 
   return (
     <>
-      {/* Overlay for mobile */}
+      {/* Overlay para dispositivos móveis */}
       {isOpen && (
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
@@ -56,10 +56,13 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
       )}
 
       {/* Sidebar */}
-      <div 
-        className={`fixed top-0 left-0 h-full bg-gray-900 text-white z-30 transition-all duration-300 ease-in-out ${
-          isOpen ? 'w-64 translate-x-0' : '-translate-x-full lg:translate-x-0 lg:w-64'
-        } overflow-hidden shadow-lg`}
+      <aside 
+        className={`
+          fixed top-0 left-0 h-full w-64 bg-gray-900 text-white z-30 
+          transform transition-transform duration-300 ease-in-out
+          ${isOpen ? 'translate-x-0' : '-translate-x-full'} 
+          lg:translate-x-0
+        `}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
@@ -103,7 +106,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
             </button>
           </div>
         </div>
-      </div>
+      </aside>
     </>
   );
 };
