@@ -2,7 +2,7 @@
 
 import MainLayout from '@/components/layout/MainLayout';
 import Card from '@/components/ui/Card';
-import { FaPlus, FaSearch, FaCalendarAlt, FaMoneyBillWave, FaUser, FaFileInvoice } from 'react-icons/fa';
+import { FaPlus, FaSearch } from 'react-icons/fa';
 
 export default function PaymentsPage() {
   // Dados simulados para a lista de pagamentos

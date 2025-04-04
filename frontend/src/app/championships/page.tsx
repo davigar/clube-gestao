@@ -2,7 +2,7 @@
 
 import MainLayout from '@/components/layout/MainLayout';
 import Card from '@/components/ui/Card';
-import { FaPlus, FaSearch, FaCalendarAlt, FaMapMarkerAlt, FaTrophy, FaUsers } from 'react-icons/fa';
+import { FaPlus, FaSearch, FaCalendarAlt, FaMapMarkerAlt, FaUsers } from 'react-icons/fa';
 
 export default function ChampionshipsPage() {
   // Dados simulados para a lista de campeonatos
