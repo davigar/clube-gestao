@@ -59,7 +59,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
       <div 
         className={`fixed top-0 left-0 h-full bg-gray-900 text-white z-30 transition-all duration-300 ease-in-out ${
           isOpen ? 'w-64' : 'w-0 lg:w-64'
-        } overflow-hidden`}
+        } overflow-hidden shadow-lg`}
       >
         <div className="flex flex-col h-full">
           {/* Logo */}
