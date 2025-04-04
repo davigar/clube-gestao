@@ -57,10 +57,10 @@ export default function UsersPage() {
           <FaSearch className="absolute left-3 top-3 text-gray-400" />
         </div>
         
-        <button className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
+        <a href="/users/new" className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors">
           <FaUserPlus className="mr-2" />
           Novo Usuário
-        </button>
+        </a>
       </div>
 
       <Card>
@@ -112,9 +112,17 @@ export default function UsersPage() {
                       <a href={`/users/${user.id}`} className="text-blue-600 hover:text-blue-900 mr-4">
                         Editar
                       </a>
-                      <a href="#" className="text-red-600 hover:text-red-900">
+                      <button 
+                        onClick={() => {
+                          if (window.confirm('Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.')) {
+                            // Aqui viria a lógica para excluir o usuário
+                            alert(`Usuário ${user.name} excluído com sucesso!`);
+                          }
+                        }}
+                        className="text-red-600 hover:text-red-900"
+                      >
                         Excluir
-                      </a>
+                      </button>
                     </td>
                   </tr>
                 );
