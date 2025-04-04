@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
+import { useEffect } from 'react';
 import { 
   FaHome, 
   FaUsers, 
@@ -18,6 +19,14 @@ interface SidebarProps {
 const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
   const pathname = usePathname();
 
+  // Fechar o sidebar quando o caminho mudar (após clicar em um link)
+  useEffect(() => {
+    // Apenas em dispositivos móveis (viewport pequeno)
+    if (window.innerWidth < 1024 && isOpen) {
+      toggleSidebar();
+    }
+  }, [pathname, toggleSidebar, isOpen]);
+
   const menuItems = [
     { path: '/dashboard', name: 'Dashboard', icon: <FaHome size={20} /> },
     { path: '/users', name: 'Usuários', icon: <FaUsers size={20} /> },
@@ -28,6 +37,13 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
     { path: '/settings', name: 'Configurações', icon: <FaCog size={20} /> },
   ];
 
+  // Função para lidar com cliques nos itens do menu em dispositivos móveis
+  const handleMenuItemClick = () => {
+    if (window.innerWidth < 1024 && isOpen) {
+      toggleSidebar();
+    }
+  };
+
   return (
     <>
       {/* Overlay for mobile */}
@@ -35,6 +51,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
         <div 
           className="fixed inset-0 bg-black bg-opacity-50 z-20 lg:hidden"
           onClick={toggleSidebar}
+          aria-hidden="true"
         />
       )}
 
@@ -55,7 +72,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
             <ul>
               {menuItems.map((item) => (
                 <li key={item.path} className="mb-1">
-                  <Link href={item.path}>
+                  <Link href={item.path} onClick={handleMenuItemClick}>
                     <div
                       className={`flex items-center px-6 py-3 hover:bg-gray-800 ${
                         pathname === item.path ? 'bg-gray-800 border-l-4 border-blue-500' : ''
@@ -74,7 +91,12 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
           <div className="p-4 border-t border-gray-800">
             <button 
               className="flex items-center w-full px-4 py-2 text-gray-300 hover:text-white hover:bg-gray-800 rounded"
-              onClick={() => console.log('Logout')}
+              onClick={() => {
+                console.log('Logout');
+                if (window.innerWidth < 1024 && isOpen) {
+                  toggleSidebar();
+                }
+              }}
             >
               <FaSignOutAlt className="mr-3" />
               <span>Sair</span>
