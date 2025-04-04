@@ -24,18 +24,18 @@ const Card: React.FC<CardProps> = ({
   return (
     <div className={`bg-white rounded-lg shadow-md overflow-hidden ${className}`}>
       {(title || subtitle) && (
-        <div className={`px-6 py-4 border-b ${headerClassName}`}>
+        <div className={`px-4 md:px-6 py-3 md:py-4 border-b ${headerClassName}`}>
           {title && <h3 className="text-lg font-semibold text-gray-800">{title}</h3>}
           {subtitle && <p className="text-sm text-gray-600 mt-1">{subtitle}</p>}
         </div>
       )}
       
-      <div className={`px-6 py-4 ${bodyClassName}`}>
+      <div className={`px-4 md:px-6 py-3 md:py-4 ${bodyClassName}`}>
         {children}
       </div>
       
       {footer && (
-        <div className={`px-6 py-3 bg-gray-50 border-t ${footerClassName}`}>
+        <div className={`px-4 md:px-6 py-2 md:py-3 bg-gray-50 border-t ${footerClassName}`}>
           {footer}
         </div>
       )}

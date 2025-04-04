@@ -10,7 +10,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
   const [showNotifications, setShowNotifications] = useState(false);
 
   return (
-    <header className="bg-white shadow-md h-16 flex items-center justify-between px-6 z-10">
+    <header className="sticky top-0 bg-white shadow-md h-16 flex items-center justify-between px-4 md:px-6 z-40">
       {/* Left side - Menu toggle and title */}
       <div className="flex items-center">
         <button 
@@ -19,7 +19,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
         >
           <FaBars size={20} />
         </button>
-        <h1 className="ml-4 text-xl font-semibold text-gray-800 lg:ml-0">Clube Gestão</h1>
+        <h1 className="ml-4 text-xl font-semibold text-gray-800 lg:hidden">Clube Gestão</h1>
       </div>
 
       {/* Right side - Notifications and Profile */}
@@ -36,7 +36,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
 
           {/* Notifications dropdown */}
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 bg-white rounded-md shadow-lg py-1 z-20">
+            <div className="absolute right-0 mt-2 w-72 md:w-80 bg-white rounded-md shadow-lg py-1 z-50">
               <div className="px-4 py-2 text-sm font-semibold text-gray-700 border-b">
                 Notificações
               </div>
@@ -73,7 +73,7 @@ const Header = ({ toggleSidebar }: HeaderProps) => {
 
           {/* Profile dropdown */}
           {showProfileMenu && (
-            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-20">
+            <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-1 z-50">
               <a href="/profile" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
                 Meu Perfil
               </a>

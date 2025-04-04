@@ -17,17 +17,17 @@ export default function ChampionshipsPage() {
         <p className="text-gray-600">Gerencie os campeonatos do clube</p>
       </div>
 
-      <div className="mb-6 flex justify-between items-center">
+      <div className="mb-6 flex flex-col md:flex-row md:justify-between md:items-center gap-4">
         <div className="flex space-x-2">
           <button className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
             Novo Campeonato
           </button>
         </div>
-        <div className="flex items-center space-x-2">
+        <div className="flex flex-1 md:flex-initial items-center space-x-2">
           <input
             type="text"
             placeholder="Buscar campeonato..."
-            className="px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full md:w-auto px-4 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
           <button className="px-4 py-2 bg-gray-200 rounded hover:bg-gray-300">
             Buscar
@@ -35,23 +35,23 @@ export default function ChampionshipsPage() {
         </div>
       </div>
 
-      <div className="bg-white rounded-lg shadow overflow-hidden">
+      <div className="bg-white rounded-lg shadow overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Nome
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Período
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="hidden md:table-cell px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Participantes
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Status
               </th>
-              <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+              <th className="px-4 md:px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
                 Ações
               </th>
             </tr>
@@ -59,20 +59,26 @@ export default function ChampionshipsPage() {
           <tbody className="bg-white divide-y divide-gray-200">
             {championships.map((championship) => (
               <tr key={championship.id}>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                   <div className="text-sm font-medium text-gray-900">{championship.name}</div>
+                  <div className="md:hidden text-xs text-gray-500 mt-1">
+                    {championship.startDate} - {championship.endDate}
+                  </div>
+                  <div className="md:hidden text-xs text-gray-500 mt-1">
+                    {championship.teams ? `${championship.teams} equipes` : `${championship.participants} participantes`}
+                  </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">
                     {championship.startDate} - {championship.endDate}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="hidden md:table-cell px-6 py-4 whitespace-nowrap">
                   <div className="text-sm text-gray-500">
                     {championship.teams ? `${championship.teams} equipes` : `${championship.participants} participantes`}
                   </div>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap">
+                <td className="px-4 md:px-6 py-4 whitespace-nowrap">
                   <span className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full 
                     ${championship.status === 'Em andamento' ? 'bg-green-100 text-green-800' : 
                       championship.status === 'Planejado' ? 'bg-blue-100 text-blue-800' : 
@@ -80,7 +86,7 @@ export default function ChampionshipsPage() {
                     {championship.status}
                   </span>
                 </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm font-medium">
+                <td className="px-4 md:px-6 py-4 whitespace-nowrap text-sm font-medium">
                   <button className="text-blue-600 hover:text-blue-900 mr-3">Editar</button>
                   <button className="text-red-600 hover:text-red-900">Excluir</button>
                 </td>

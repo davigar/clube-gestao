@@ -40,7 +40,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
 
       {/* Sidebar */}
       <div 
-        className={`fixed top-0 left-0 h-full bg-gray-900 text-white z-30 transition-all duration-300 ease-in-out ${
+        className={`fixed lg:fixed lg:inset-y-0 lg:left-0 lg:z-50 lg:block lg:w-64 lg:overflow-y-auto h-full bg-gray-900 text-white z-30 transition-all duration-300 ease-in-out ${
           isOpen ? 'w-64' : 'w-0 lg:w-64'
         } overflow-hidden`}
       >
