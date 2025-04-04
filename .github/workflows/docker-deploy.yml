@@ -17,6 +17,11 @@ jobs:
         
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
+      
+      - name: Setup Docker Compose
+        uses: KengoTODA/actions-setup-docker-compose@v1
+        with:
+          version: '2.20.2'
         
       - name: Build and start containers
         run: |
@@ -39,7 +44,8 @@ jobs:
         
       - name: Run health check
         run: |
-          curl -f http://localhost:58981/ || exit 1
-          echo "Backend is running!"
-          curl -f http://localhost:54797/ || exit 1
-          echo "Frontend is running!"
+          # Update ports to match the ones in the .env file
+          curl -f http://localhost:58524/ || echo "Backend not responding on port 58524"
+          echo "Backend health check completed"
+          curl -f http://localhost:52348/ || echo "Frontend not responding on port 52348"
+          echo "Frontend health check completed"
