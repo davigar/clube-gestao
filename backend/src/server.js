@@ -16,7 +16,7 @@ const paymentRoutes = require('./routes/paymentRoutes');
 
 // Inicializar app
 const app = express();
-const PORT = process.env.PORT || 58981;
+const PORT = process.env.PORT || 58524;
 
 // Middleware
 app.use(cors());

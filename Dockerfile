@@ -18,7 +18,7 @@ COPY . .
 RUN cd frontend && npm run build
 
 # Expor portas
-EXPOSE 58981 54797
+EXPOSE 58524 52348
 
 # Comando para iniciar a aplicação
 CMD ["npm", "run", "start"]

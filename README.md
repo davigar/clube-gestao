@@ -111,6 +111,7 @@ clube-gestao/
 │   │   ├── routes/      # Rotas da API
 │   │   ├── middleware/  # Middlewares
 │   │   ├── config/      # Configurações
+│   │   ├── scripts/     # Scripts de inicialização
 │   │   └── utils/       # Utilitários
 │   └── server.js        # Ponto de entrada do servidor
 │
@@ -123,8 +124,57 @@ clube-gestao/
 │       ├── services/    # Serviços de API
 │       └── utils/       # Utilitários
 │
-└── package.json         # Scripts e dependências do projeto raiz
+├── package.json         # Scripts e dependências do projeto raiz
+├── deploy.sh            # Script para implantação com Docker
+└── run-local.sh         # Script para execução local
 ```
+
+## Estrutura do Banco de Dados
+
+O sistema utiliza MongoDB como banco de dados, com os seguintes modelos:
+
+### Usuários (Users)
+- Gerenciamento de membros, administradores e instrutores
+- Perfis com diferentes níveis de acesso
+- Histórico de atividades e pagamentos
+
+### Espaços (Spaces)
+- Campos, quadras, salões, piscinas, etc.
+- Disponibilidade e agendamento
+- Manutenções programadas
+
+### Eventos (Events)
+- Aulas, treinos, competições, eventos sociais
+- Agendamento e recorrência
+- Participantes e instrutores
+
+### Campeonatos (Championships)
+- Internos e externos
+- Categorias e participantes
+- Resultados e desempenho
+
+### Pagamentos (Payments)
+- Mensalidades, eventos, campeonatos
+- Métodos de pagamento (PIX, cartão, etc.)
+- Status e notificações
+
+## Inicialização do Banco de Dados
+
+O sistema inclui scripts para inicializar o banco de dados com dados de exemplo:
+
+```bash
+# Usando npm
+cd backend
+npm run init-db
+
+# Ou usando Docker
+docker-compose exec clube-gestao npm run --prefix backend init-db
+```
+
+Após a inicialização, você terá acesso com as seguintes credenciais:
+
+- **Administrador**: admin@clubegestao.com / admin123
+- **Usuário**: joao@exemplo.com / senha123
 
 ## Licença
 

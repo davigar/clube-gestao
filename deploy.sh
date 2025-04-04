@@ -50,6 +50,18 @@ docker-compose up -d
 echo "Verificando status dos contêineres..."
 docker-compose ps
 
+# Aguardar o MongoDB iniciar completamente
+echo "Aguardando o MongoDB iniciar..."
+sleep 10
+
+# Inicializar o banco de dados
+echo "Inicializando o banco de dados com dados de exemplo..."
+docker-compose exec clube-gestao npm run --prefix backend init-db
+
 echo "Implantação concluída! O sistema está disponível em:"
-echo "- Backend: http://localhost:58981"
-echo "- Frontend: http://localhost:54797"
+echo "- Backend: http://localhost:58524"
+echo "- Frontend: http://localhost:52348"
+echo ""
+echo "Credenciais de acesso:"
+echo "- Admin: admin@clubegestao.com / admin123"
+echo "- Usuário: joao@exemplo.com / senha123"

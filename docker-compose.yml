@@ -8,12 +8,12 @@ services:
     container_name: clube-gestao
     restart: unless-stopped
     ports:
-      - "58981:58981"  # Backend
-      - "54797:54797"  # Frontend
+      - "58524:58524"  # Backend
+      - "52348:52348"  # Frontend
     environment:
       - NODE_ENV=production
-      - PORT=58981
-      - FRONTEND_PORT=54797
+      - PORT=58524
+      - FRONTEND_PORT=52348
     volumes:
       - clube-data:/app/data
     networks:
