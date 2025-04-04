@@ -264,6 +264,13 @@ export default function UserEditPage({ params }: UserEditPageProps) {
             <FaArrowLeft className="mr-2" />
             Voltar
           </button>
+          <a 
+            href={`/users/${id}/view`}
+            className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+          >
+            <FaUser className="mr-2" />
+            Visualizar
+          </a>
           <button 
             onClick={handleDelete}
             className="flex items-center px-4 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors"
