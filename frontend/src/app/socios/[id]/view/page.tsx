@@ -383,7 +383,7 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
           <h1 className="text-2xl font-bold text-gray-800">Detalhes do Sócio</h1>
-          <p className="text-gray-600">ID: {id}</p>
+          <p className="text-gray-600">ID: {resolvedParams.id}</p>
         </div>
         <div className="flex space-x-2">
           <button 
