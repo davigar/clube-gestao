@@ -24,6 +24,47 @@ const SocioSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
+    phone2: {
+      type: String,
+      trim: true,
+    },
+    rg: {
+      type: String,
+      trim: true,
+    },
+    gender: {
+      type: String,
+      enum: ['masculino', 'feminino', 'outro', 'nao_informado'],
+      default: 'nao_informado',
+    },
+    birthDate: {
+      type: Date,
+    },
+    studyPeriod: {
+      type: String,
+      enum: ['nao', 'manha', 'tarde', 'noite', 'integral'],
+      default: 'nao',
+    },
+    schoolName: {
+      type: String,
+      trim: true,
+    },
+    fatherName: {
+      type: String,
+      trim: true,
+    },
+    motherName: {
+      type: String,
+      trim: true,
+    },
+    hasMedicalInsurance: {
+      type: Boolean,
+      default: false,
+    },
+    medicalInsuranceName: {
+      type: String,
+      trim: true,
+    },
     role: {
       type: String,
       enum: ['admin', 'manager', 'member', 'instructor'],

@@ -12,18 +12,28 @@ interface UserEditPageProps {
   };
 }
 
-export default function UserEditPage({ params }: UserEditPageProps) {
+export default function SocioEditPage({ params }: UserEditPageProps) {
   const router = useRouter();
   const { id } = params;
   
-  // Estado para armazenar os dados do usuário
+  // Estado para armazenar os dados do sócio
   const [user, setUser] = useState({
     id: parseInt(id),
     name: '',
     email: '',
     phone: '',
+    phone2: '',
     cpf: '',
+    rg: '',
+    gender: 'nao_informado',
+    birthDate: '',
     age: '',
+    studyPeriod: 'nao',
+    schoolName: '',
+    fatherName: '',
+    motherName: '',
+    hasMedicalInsurance: false,
+    medicalInsuranceName: '',
     role: 'member',
     status: 'active',
     address: {
@@ -241,9 +251,9 @@ export default function UserEditPage({ params }: UserEditPageProps) {
     fetchUser();
   }, [id, router]);
 
-  // Função para atualizar os campos do usuário
+  // Função para atualizar os campos do sócio
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target as HTMLInputElement;
     
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
@@ -255,7 +265,9 @@ export default function UserEditPage({ params }: UserEditPageProps) {
         }
       }));
     } else {
-      setUser(prev => ({ ...prev, [name]: value }));
+      // Para campos do tipo checkbox, usamos a propriedade checked
+      const fieldValue = type === 'checkbox' ? checked : value;
+      setUser(prev => ({ ...prev, [name]: fieldValue }));
     }
   };
 

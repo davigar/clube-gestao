@@ -14,8 +14,18 @@ export default function NewSocioPage() {
     name: '',
     email: '',
     phone: '',
+    phone2: '',
     cpf: '',
+    rg: '',
+    gender: 'nao_informado',
+    birthDate: '',
     age: '',
+    studyPeriod: 'nao',
+    schoolName: '',
+    fatherName: '',
+    motherName: '',
+    hasMedicalInsurance: false,
+    medicalInsuranceName: '',
     role: 'member',
     status: 'active',
     address: {
@@ -40,7 +50,7 @@ export default function NewSocioPage() {
 
   // Função para atualizar os campos do sócio
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target as HTMLInputElement;
     
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
@@ -52,7 +62,9 @@ export default function NewSocioPage() {
         }
       }));
     } else {
-      setSocio(prev => ({ ...prev, [name]: value }));
+      // Para campos do tipo checkbox, usamos a propriedade checked
+      const fieldValue = type === 'checkbox' ? checked : value;
+      setSocio(prev => ({ ...prev, [name]: fieldValue }));
     }
   };
 
@@ -158,7 +170,7 @@ export default function NewSocioPage() {
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Telefone
+                    Telefone Principal
                   </label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -168,6 +180,24 @@ export default function NewSocioPage() {
                       type="tel"
                       name="phone"
                       value={socio.phone}
+                      onChange={handleChange}
+                      className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                  </div>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Telefone Secundário
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                      <FaPhone className="text-gray-400" />
+                    </div>
+                    <input
+                      type="tel"
+                      name="phone2"
+                      value={socio.phone2}
                       onChange={handleChange}
                       className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -192,6 +222,34 @@ export default function NewSocioPage() {
                 
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
+                    RG
+                  </label>
+                  <input
+                    type="text"
+                    name="rg"
+                    value={socio.rg}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Data de Nascimento
+                  </label>
+                  <input
+                    type="date"
+                    name="birthDate"
+                    value={socio.birthDate}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
                     Idade
                   </label>
                   <input
@@ -204,7 +262,123 @@ export default function NewSocioPage() {
                     max="120"
                   />
                 </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Sexo
+                  </label>
+                  <select
+                    name="gender"
+                    value={socio.gender}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="nao_informado">Não Informado</option>
+                    <option value="masculino">Masculino</option>
+                    <option value="feminino">Feminino</option>
+                    <option value="outro">Outro</option>
+                  </select>
+                </div>
               </div>
+              
+              <h3 className="text-lg font-medium text-gray-800 pt-4">Informações Educacionais</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Estuda
+                  </label>
+                  <select
+                    name="studyPeriod"
+                    value={socio.studyPeriod}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  >
+                    <option value="nao">Não</option>
+                    <option value="manha">Manhã</option>
+                    <option value="tarde">Tarde</option>
+                    <option value="noite">Noite</option>
+                    <option value="integral">Integral</option>
+                  </select>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nome da Escola
+                  </label>
+                  <input
+                    type="text"
+                    name="schoolName"
+                    value={socio.schoolName}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={socio.studyPeriod === 'nao'}
+                  />
+                </div>
+              </div>
+              
+              <h3 className="text-lg font-medium text-gray-800 pt-4">Informações Familiares</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nome do Pai
+                  </label>
+                  <input
+                    type="text"
+                    name="fatherName"
+                    value={socio.fatherName}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Nome da Mãe
+                  </label>
+                  <input
+                    type="text"
+                    name="motherName"
+                    value={socio.motherName}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                  />
+                </div>
+              </div>
+              
+              <h3 className="text-lg font-medium text-gray-800 pt-4">Informações Médicas</h3>
+              
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                    <input
+                      type="checkbox"
+                      name="hasMedicalInsurance"
+                      checked={socio.hasMedicalInsurance}
+                      onChange={handleChange}
+                      className="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                    />
+                    Possui convênio médico
+                  </label>
+                </div>
+                
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">
+                    Qual convênio?
+                  </label>
+                  <input
+                    type="text"
+                    name="medicalInsuranceName"
+                    value={socio.medicalInsuranceName}
+                    onChange={handleChange}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    disabled={!socio.hasMedicalInsurance}
+                  />
+                </div>
+              </div>
+              
+              <h3 className="text-lg font-medium text-gray-800 pt-4">Informações do Sistema</h3>
               
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
