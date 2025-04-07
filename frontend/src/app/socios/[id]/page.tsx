@@ -281,7 +281,7 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
     try {
       // Simulando uma chamada à API
       // Em um cenário real, isso seria uma chamada à API
-      // const response = await fetch(`/api/users/${id}`, {
+      // const response = await fetch(`/api/socios/${resolvedParams.id}`, {
       //   method: 'PUT',
       //   headers: { 'Content-Type': 'application/json' },
       //   body: JSON.stringify(user)
@@ -302,11 +302,11 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
 
   // Função para excluir o usuário
   const handleDelete = async () => {
-    if (window.confirm('Tem certeza que deseja excluir este usuário? Esta ação não pode ser desfeita.')) {
+    if (window.confirm('Tem certeza que deseja excluir este sócio? Esta ação não pode ser desfeita.')) {
       try {
         // Simulando uma chamada à API
         // Em um cenário real, isso seria uma chamada à API
-        // const response = await fetch(`/api/users/${id}`, {
+        // const response = await fetch(`/api/socios/${resolvedParams.id}`, {
         //   method: 'DELETE'
         // });
         
@@ -356,7 +356,7 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
             Voltar
           </button>
           <a 
-            href={`/users/${id}/view`}
+            href={`/socios/${resolvedParams.id}/view`}
             className="flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
           >
             <FaUser className="mr-2" />
