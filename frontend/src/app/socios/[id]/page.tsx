@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import Card from '@/components/ui/Card';
@@ -14,6 +14,8 @@ interface UserEditPageProps {
 
 export default function SocioEditPage({ params }: UserEditPageProps) {
   const router = useRouter();
+  // Desempacotar params usando React.use()
+  const resolvedParams = use(params);
   
   // Estado para armazenar os dados do sócio
   const [user, setUser] = useState({
@@ -61,7 +63,7 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
     // Simulando uma chamada à API
     const fetchUser = async () => {
       setLoading(true);
-      const socioId = params.id;
+      const socioId = resolvedParams.id;
       try {
         // Em um cenário real, isso seria uma chamada à API
         // const response = await fetch(`/api/socios/${socioId}`);
@@ -249,8 +251,8 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
     };
 
     fetchUser();
-  // Usando 'params' como dependência em vez de 'params.id'
-  }, [params, router]);
+  // Usando 'resolvedParams.id' como dependência
+  }, [resolvedParams.id, router]);
 
   // Função para atualizar os campos do sócio
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

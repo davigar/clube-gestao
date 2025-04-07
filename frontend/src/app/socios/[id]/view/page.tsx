@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, use } from 'react';
 import { useRouter } from 'next/navigation';
 import MainLayout from '@/components/layout/MainLayout';
 import Card from '@/components/ui/Card';
@@ -31,6 +31,8 @@ interface UserViewPageProps {
 
 export default function SocioViewPage({ params }: UserViewPageProps) {
   const router = useRouter();
+  // Desempacotar params usando React.use()
+  const resolvedParams = use(params);
   
   // Estado para armazenar os dados do sócio
   const [user, setUser] = useState<any>(null);
@@ -49,7 +51,7 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
     // Simulando uma chamada à API
     const fetchUser = async () => {
       setLoading(true);
-      const socioId = params.id;
+      const socioId = resolvedParams.id;
       try {
         // Em um cenário real, isso seria uma chamada à API
         // const response = await fetch(`/api/socios/${socioId}`);
@@ -290,8 +292,8 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
     };
 
     fetchUser();
-  // Usando 'params' como dependência em vez de 'params.id'
-  }, [params, router]);
+  // Usando 'resolvedParams.id' como dependência
+  }, [resolvedParams.id, router]);
 
   // Função para voltar à página anterior
   const handleBack = () => {
@@ -300,7 +302,7 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
 
   // Função para ir para a página de edição
   const handleEdit = () => {
-    router.push(`/socios/${params.id}`);
+    router.push(`/socios/${resolvedParams.id}`);
   };
 
   // Renderização condicional durante o carregamento
