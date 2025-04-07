@@ -46,7 +46,7 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
   // Estado para controlar mensagens de erro
   const [error, setError] = useState('');
 
-  // Função para carregar os dados do usuário
+  // Função para carregar os dados do sócio
   useEffect(() => {
     // Simulando uma chamada à API
     const fetchUser = async () => {
@@ -272,7 +272,7 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
         if (userData) {
           setUser(userData);
           
-          // Se o usuário tiver um membro titular, buscar os dados do membro titular
+          // Se o sócio tiver um membro titular, buscar os dados do membro titular
           if (userData.mainMemberId) {
             const mainMemberData = mockUsers.find(u => u.id === userData.mainMemberId);
             if (mainMemberData) {
@@ -284,8 +284,8 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
           setTimeout(() => router.push('/socios'), 2000);
         }
       } catch (error) {
-        console.error('Erro ao carregar usuário:', error);
-        setError('Erro ao carregar dados do usuário');
+        console.error('Erro ao carregar sócio:', error);
+        setError('Erro ao carregar dados do sócio');
       } finally {
         setLoading(false);
       }
@@ -328,7 +328,7 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
     );
   }
 
-  // Função para obter o rótulo do papel do usuário
+  // Função para obter o rótulo do papel do sócio
   const getRoleLabel = (role: string) => {
     switch (role) {
       case 'admin':
@@ -438,7 +438,11 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
                 </div>
                 <div className="flex items-center mb-3">
                   <FaPhone className="text-gray-500 mr-2" />
-                  <span className="text-sm text-gray-600">{user.phone}</span>
+                  <span className="text-sm text-gray-600">Telefone Principal: {user.phone}</span>
+                </div>
+                <div className="flex items-center mb-3">
+                  <FaPhone className="text-gray-500 mr-2" />
+                  <span className="text-sm text-gray-600">Telefone Secundário: {user.phone2 || 'Não informado'}</span>
                 </div>
                 <div className="flex items-center mb-3">
                   <FaEnvelope className="text-gray-500 mr-2" />
@@ -447,6 +451,22 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
                 <div className="flex items-center mb-3">
                   <FaAddressCard className="text-gray-500 mr-2" />
                   <span className="text-sm text-gray-600">CPF: {user.cpf}</span>
+                </div>
+                <div className="flex items-center mb-3">
+                  <FaAddressCard className="text-gray-500 mr-2" />
+                  <span className="text-sm text-gray-600">RG: {user.rg || 'Não informado'}</span>
+                </div>
+                <div className="flex items-center mb-3">
+                  <FaUser className="text-gray-500 mr-2" />
+                  <span className="text-sm text-gray-600">Sexo: {
+                    user.gender === 'masculino' ? 'Masculino' :
+                    user.gender === 'feminino' ? 'Feminino' :
+                    user.gender === 'outro' ? 'Outro' : 'Não informado'
+                  }</span>
+                </div>
+                <div className="flex items-center mb-3">
+                  <FaBirthdayCake className="text-gray-500 mr-2" />
+                  <span className="text-sm text-gray-600">Data de Nascimento: {user.birthDate || 'Não informada'}</span>
                 </div>
                 <div className="flex items-center mb-3">
                   <FaBirthdayCake className="text-gray-500 mr-2" />
@@ -474,6 +494,58 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
             </div>
           </Card>
 
+          <Card className="mt-6">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Informações Educacionais</h3>
+              <div className="mb-3">
+                <p className="text-sm font-medium text-gray-700">Estuda:</p>
+                <p className="text-sm text-gray-600">
+                  {user.studyPeriod === 'nao' ? 'Não' :
+                   user.studyPeriod === 'manha' ? 'Manhã' :
+                   user.studyPeriod === 'tarde' ? 'Tarde' :
+                   user.studyPeriod === 'noite' ? 'Noite' :
+                   user.studyPeriod === 'integral' ? 'Integral' : 'Não informado'}
+                </p>
+              </div>
+              {user.studyPeriod !== 'nao' && (
+                <div className="mb-3">
+                  <p className="text-sm font-medium text-gray-700">Nome da Escola:</p>
+                  <p className="text-sm text-gray-600">{user.schoolName || 'Não informado'}</p>
+                </div>
+              )}
+            </div>
+          </Card>
+          
+          <Card className="mt-6">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Informações Familiares</h3>
+              <div className="mb-3">
+                <p className="text-sm font-medium text-gray-700">Nome do Pai:</p>
+                <p className="text-sm text-gray-600">{user.fatherName || 'Não informado'}</p>
+              </div>
+              <div className="mb-3">
+                <p className="text-sm font-medium text-gray-700">Nome da Mãe:</p>
+                <p className="text-sm text-gray-600">{user.motherName || 'Não informado'}</p>
+              </div>
+            </div>
+          </Card>
+          
+          <Card className="mt-6">
+            <div className="p-6">
+              <h3 className="text-lg font-semibold mb-4">Informações Médicas</h3>
+              <div className="mb-3">
+                <p className="text-sm font-medium text-gray-700">Possui convênio médico:</p>
+                <p className="text-sm text-gray-600">{user.hasMedicalInsurance ? 'Sim' : 'Não'}</p>
+              </div>
+              {user.hasMedicalInsurance && (
+                <div className="mb-3">
+                  <p className="text-sm font-medium text-gray-700">Nome do convênio:</p>
+                  <p className="text-sm text-gray-600">{user.medicalInsuranceName || 'Não informado'}</p>
+                </div>
+              )}
+            </div>
+          </Card>
+          
           <Card className="mt-6">
             <div className="p-6">
               <h3 className="text-lg font-semibold mb-4">Endereço</h3>

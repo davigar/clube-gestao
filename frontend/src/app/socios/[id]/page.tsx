@@ -58,7 +58,7 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
   // Estado para controlar mensagens de erro/sucesso
   const [message, setMessage] = useState({ type: '', text: '' });
 
-  // Função para carregar os dados do usuário
+  // Função para carregar os dados do sócio
   useEffect(() => {
     // Simulando uma chamada à API
     const fetchUser = async () => {
@@ -243,8 +243,8 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
           setTimeout(() => router.push('/socios'), 2000);
         }
       } catch (error) {
-        console.error('Erro ao carregar usuário:', error);
-        setMessage({ type: 'error', text: 'Erro ao carregar dados do usuário' });
+        console.error('Erro ao carregar sócio:', error);
+        setMessage({ type: 'error', text: 'Erro ao carregar dados do sócio' });
       } finally {
         setLoading(false);
       }
@@ -295,12 +295,12 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
       // Redirecionar após salvar
       setTimeout(() => router.push('/socios'), 2000);
     } catch (error) {
-      console.error('Erro ao atualizar usuário:', error);
-      setMessage({ type: 'error', text: 'Erro ao atualizar usuário' });
+      console.error('Erro ao atualizar sócio:', error);
+      setMessage({ type: 'error', text: 'Erro ao atualizar sócio' });
     }
   };
 
-  // Função para excluir o usuário
+  // Função para excluir o sócio
   const handleDelete = async () => {
     if (window.confirm('Tem certeza que deseja excluir este sócio? Esta ação não pode ser desfeita.')) {
       try {
@@ -318,8 +318,8 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
         // Redirecionar após excluir
         setTimeout(() => router.push('/socios'), 2000);
       } catch (error) {
-        console.error('Erro ao excluir usuário:', error);
-        setMessage({ type: 'error', text: 'Erro ao excluir usuário' });
+        console.error('Erro ao excluir sócio:', error);
+        setMessage({ type: 'error', text: 'Erro ao excluir sócio' });
       }
     }
   };
@@ -456,7 +456,7 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Telefone
+                        Telefone Principal
                       </label>
                       <div className="relative">
                         <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
@@ -466,6 +466,24 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
                           type="tel"
                           name="phone"
                           value={user.phone}
+                          onChange={handleChange}
+                          className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                      </div>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Telefone Secundário
+                      </label>
+                      <div className="relative">
+                        <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                          <FaPhone className="text-gray-400" />
+                        </div>
+                        <input
+                          type="tel"
+                          name="phone2"
+                          value={user.phone2}
                           onChange={handleChange}
                           className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
@@ -490,6 +508,34 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
                     
                     <div>
                       <label className="block text-sm font-medium text-gray-700 mb-1">
+                        RG
+                      </label>
+                      <input
+                        type="text"
+                        name="rg"
+                        value={user.rg}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Data de Nascimento
+                      </label>
+                      <input
+                        type="date"
+                        name="birthDate"
+                        value={user.birthDate}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
                         Idade
                       </label>
                       <input
@@ -502,7 +548,123 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
                         max="120"
                       />
                     </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Sexo
+                      </label>
+                      <select
+                        name="gender"
+                        value={user.gender}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="nao_informado">Não Informado</option>
+                        <option value="masculino">Masculino</option>
+                        <option value="feminino">Feminino</option>
+                        <option value="outro">Outro</option>
+                      </select>
+                    </div>
                   </div>
+                  
+                  <h3 className="text-lg font-medium text-gray-800 pt-4">Informações Educacionais</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Estuda
+                      </label>
+                      <select
+                        name="studyPeriod"
+                        value={user.studyPeriod}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      >
+                        <option value="nao">Não</option>
+                        <option value="manha">Manhã</option>
+                        <option value="tarde">Tarde</option>
+                        <option value="noite">Noite</option>
+                        <option value="integral">Integral</option>
+                      </select>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Nome da Escola
+                      </label>
+                      <input
+                        type="text"
+                        name="schoolName"
+                        value={user.schoolName}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={user.studyPeriod === 'nao'}
+                      />
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-medium text-gray-800 pt-4">Informações Familiares</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Nome do Pai
+                      </label>
+                      <input
+                        type="text"
+                        name="fatherName"
+                        value={user.fatherName}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Nome da Mãe
+                      </label>
+                      <input
+                        type="text"
+                        name="motherName"
+                        value={user.motherName}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                      />
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-medium text-gray-800 pt-4">Informações Médicas</h3>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                      <label className="flex items-center text-sm font-medium text-gray-700 mb-1">
+                        <input
+                          type="checkbox"
+                          name="hasMedicalInsurance"
+                          checked={user.hasMedicalInsurance}
+                          onChange={handleChange}
+                          className="mr-2 h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        />
+                        Possui convênio médico
+                      </label>
+                    </div>
+                    
+                    <div>
+                      <label className="block text-sm font-medium text-gray-700 mb-1">
+                        Qual convênio?
+                      </label>
+                      <input
+                        type="text"
+                        name="medicalInsuranceName"
+                        value={user.medicalInsuranceName}
+                        onChange={handleChange}
+                        className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        disabled={!user.hasMedicalInsurance}
+                      />
+                    </div>
+                  </div>
+                  
+                  <h3 className="text-lg font-medium text-gray-800 pt-4">Informações do Sistema</h3>
                   
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
@@ -619,7 +781,7 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
                         disabled={user.status !== 'inactive'}
                       />
                       <p className="text-xs text-gray-500 mt-1">
-                        {user.status !== 'inactive' ? 'Disponível apenas para usuários inativos' : ''}
+                        {user.status !== 'inactive' ? 'Disponível apenas para sócios inativos' : ''}
                       </p>
                     </div>
                   </div>
