@@ -14,11 +14,10 @@ interface UserEditPageProps {
 
 export default function SocioEditPage({ params }: UserEditPageProps) {
   const router = useRouter();
-  const { id } = params;
   
   // Estado para armazenar os dados do sócio
   const [user, setUser] = useState({
-    id: parseInt(id),
+    id: 0,
     name: '',
     email: '',
     phone: '',
@@ -62,9 +61,10 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
     // Simulando uma chamada à API
     const fetchUser = async () => {
       setLoading(true);
+      const socioId = params.id;
       try {
         // Em um cenário real, isso seria uma chamada à API
-        // const response = await fetch(`/api/users/${id}`);
+        // const response = await fetch(`/api/socios/${socioId}`);
         // const data = await response.json();
         
         // Dados simulados para demonstração
@@ -232,7 +232,7 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
           },
         ];
         
-        const userData = mockUsers.find(u => u.id === parseInt(id));
+        const userData = mockUsers.find(u => u.id === parseInt(socioId));
         
         if (userData) {
           setUser(userData);
@@ -249,7 +249,7 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
     };
 
     fetchUser();
-  }, [id, router]);
+  }, [params.id, router]);
 
   // Função para atualizar os campos do sócio
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

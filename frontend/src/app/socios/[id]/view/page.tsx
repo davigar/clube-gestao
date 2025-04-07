@@ -29,11 +29,10 @@ interface UserViewPageProps {
   };
 }
 
-export default function UserViewPage({ params }: UserViewPageProps) {
+export default function SocioViewPage({ params }: UserViewPageProps) {
   const router = useRouter();
-  const { id } = params;
   
-  // Estado para armazenar os dados do usuário
+  // Estado para armazenar os dados do sócio
   const [user, setUser] = useState<any>(null);
   
   // Estado para armazenar os dados do membro titular (se aplicável)
@@ -50,9 +49,10 @@ export default function UserViewPage({ params }: UserViewPageProps) {
     // Simulando uma chamada à API
     const fetchUser = async () => {
       setLoading(true);
+      const socioId = params.id;
       try {
         // Em um cenário real, isso seria uma chamada à API
-        // const response = await fetch(`/api/socios/${id}`);
+        // const response = await fetch(`/api/socios/${socioId}`);
         // const data = await response.json();
         
         // Dados simulados para demonstração
@@ -265,7 +265,7 @@ export default function UserViewPage({ params }: UserViewPageProps) {
           },
         ];
         
-        const userData = mockUsers.find(u => u.id === parseInt(id));
+        const userData = mockUsers.find(u => u.id === parseInt(socioId));
         
         if (userData) {
           setUser(userData);
@@ -290,7 +290,7 @@ export default function UserViewPage({ params }: UserViewPageProps) {
     };
 
     fetchUser();
-  }, [id, router]);
+  }, [params.id, router]);
 
   // Função para voltar à página anterior
   const handleBack = () => {
@@ -299,7 +299,7 @@ export default function UserViewPage({ params }: UserViewPageProps) {
 
   // Função para ir para a página de edição
   const handleEdit = () => {
-    router.push(`/socios/${id}`);
+    router.push(`/socios/${params.id}`);
   };
 
   // Renderização condicional durante o carregamento
