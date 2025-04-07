@@ -249,7 +249,8 @@ export default function SocioEditPage({ params }: UserEditPageProps) {
     };
 
     fetchUser();
-  }, [params.id, router]);
+  // Usando 'params' como dependência em vez de 'params.id'
+  }, [params, router]);
 
   // Função para atualizar os campos do sócio
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {

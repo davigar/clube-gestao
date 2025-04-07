@@ -290,7 +290,8 @@ export default function SocioViewPage({ params }: UserViewPageProps) {
     };
 
     fetchUser();
-  }, [params.id, router]);
+  // Usando 'params' como dependência em vez de 'params.id'
+  }, [params, router]);
 
   // Função para voltar à página anterior
   const handleBack = () => {
