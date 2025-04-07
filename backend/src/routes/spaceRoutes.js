@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Space = require('../models/Space');
 const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+const Socio = require('../models/Socio');
 
 // Middleware de autenticação
 const authMiddleware = async (req, res, next) => {
@@ -14,13 +14,13 @@ const authMiddleware = async (req, res, next) => {
     }
     
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    const socio = await Socio.findById(decoded.id);
     
-    if (!user) {
-      return res.status(401).json({ message: 'Usuário não encontrado' });
+    if (!socio) {
+      return res.status(401).json({ message: 'Sócio não encontrado' });
     }
     
-    req.user = user;
+    req.socio = socio;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token inválido' });
@@ -29,7 +29,7 @@ const authMiddleware = async (req, res, next) => {
 
 // Middleware de autorização para admin e manager
 const adminManagerMiddleware = (req, res, next) => {
-  if (req.user.role !== 'admin' && req.user.role !== 'manager') {
+  if (req.socio.role !== 'admin' && req.socio.role !== 'manager') {
     return res.status(403).json({ message: 'Acesso negado. Apenas administradores e gerentes podem realizar esta ação.' });
   }
   next();
@@ -113,7 +113,7 @@ router.put('/:id', authMiddleware, adminManagerMiddleware, async (req, res) => {
 // Excluir espaço (apenas admin)
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
+    if (req.socio.role !== 'admin') {
       return res.status(403).json({ message: 'Acesso negado. Apenas administradores podem excluir espaços.' });
     }
     

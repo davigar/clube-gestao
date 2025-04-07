@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Event = require('../models/Event');
 const Space = require('../models/Space');
-const User = require('../models/User');
+const Socio = require('../models/Socio');
 const jwt = require('jsonwebtoken');
 
 // Middleware de autenticação
@@ -15,13 +15,13 @@ const authMiddleware = async (req, res, next) => {
     }
     
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    const socio = await Socio.findById(decoded.id);
     
-    if (!user) {
-      return res.status(401).json({ message: 'Usuário não encontrado' });
+    if (!socio) {
+      return res.status(401).json({ message: 'Sócio não encontrado' });
     }
     
-    req.user = user;
+    req.socio = socio;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token inválido' });
@@ -30,7 +30,7 @@ const authMiddleware = async (req, res, next) => {
 
 // Middleware de autorização para admin e manager
 const adminManagerMiddleware = (req, res, next) => {
-  if (req.user.role !== 'admin' && req.user.role !== 'manager' && req.user.role !== 'instructor') {
+  if (req.socio.role !== 'admin' && req.socio.role !== 'manager' && req.socio.role !== 'instructor') {
     return res.status(403).json({ message: 'Acesso negado. Apenas administradores, gerentes e instrutores podem realizar esta ação.' });
   }
   next();
@@ -99,7 +99,7 @@ router.post('/', authMiddleware, adminManagerMiddleware, async (req, res) => {
       space,
       startTime,
       endTime,
-      createdBy: req.user._id,
+      createdBy: req.socio._id,
       description,
       eventType,
       recurrence,
@@ -130,8 +130,8 @@ router.put('/:id', authMiddleware, adminManagerMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Evento não encontrado' });
     }
     
-    // Verificar se o usuário é o criador do evento ou admin
-    if (event.createdBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+    // Verificar se o sócio é o criador do evento ou admin
+    if (event.createdBy.toString() !== req.socio._id.toString() && req.socio.role !== 'admin') {
       return res.status(403).json({ message: 'Acesso negado. Apenas o criador do evento ou administradores podem atualizá-lo.' });
     }
     
@@ -181,8 +181,8 @@ router.delete('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Evento não encontrado' });
     }
     
-    // Verificar se o usuário é o criador do evento ou admin
-    if (event.createdBy.toString() !== req.user._id.toString() && req.user.role !== 'admin') {
+    // Verificar se o sócio é o criador do evento ou admin
+    if (event.createdBy.toString() !== req.socio._id.toString() && req.socio.role !== 'admin') {
       return res.status(403).json({ message: 'Acesso negado. Apenas o criador do evento ou administradores podem excluí-lo.' });
     }
     
@@ -208,13 +208,13 @@ router.post('/:id/attend', authMiddleware, async (req, res) => {
       return res.status(400).json({ message: 'Evento já está com lotação máxima' });
     }
     
-    // Verificar se o usuário já está participando
-    if (event.attendees.includes(req.user._id)) {
+    // Verificar se o sócio já está participando
+    if (event.attendees.includes(req.socio._id)) {
       return res.status(400).json({ message: 'Você já está participando deste evento' });
     }
     
-    // Adicionar usuário aos participantes
-    event.attendees.push(req.user._id);
+    // Adicionar sócio aos participantes
+    event.attendees.push(req.socio._id);
     await event.save();
     
     res.json({
@@ -235,14 +235,14 @@ router.delete('/:id/attend', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Evento não encontrado' });
     }
     
-    // Verificar se o usuário está participando
-    if (!event.attendees.includes(req.user._id)) {
+    // Verificar se o sócio está participando
+    if (!event.attendees.includes(req.socio._id)) {
       return res.status(400).json({ message: 'Você não está participando deste evento' });
     }
     
-    // Remover usuário dos participantes
+    // Remover sócio dos participantes
     event.attendees = event.attendees.filter(
-      (attendee) => attendee.toString() !== req.user._id.toString(),
+      (attendee) => attendee.toString() !== req.socio._id.toString(),
     );
     await event.save();
     

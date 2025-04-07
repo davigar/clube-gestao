@@ -8,7 +8,7 @@ const mongoose = require('mongoose');
 dotenv.config();
 
 // Importar rotas
-const userRoutes = require('./routes/userRoutes');
+const socioRoutes = require('./routes/socioRoutes');
 const spaceRoutes = require('./routes/spaceRoutes');
 const eventRoutes = require('./routes/eventRoutes');
 const championshipRoutes = require('./routes/championshipRoutes');
@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Rotas
-app.use('/api/users', userRoutes);
+app.use('/api/socios', socioRoutes);
 app.use('/api/spaces', spaceRoutes);
 app.use('/api/events', eventRoutes);
 app.use('/api/championships', championshipRoutes);

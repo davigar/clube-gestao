@@ -29,7 +29,7 @@ const Sidebar = ({ isOpen, toggleSidebar }: SidebarProps) => {
 
   const menuItems = [
     { path: '/dashboard', name: 'Dashboard', icon: <FaHome size={20} /> },
-    { path: '/users', name: 'Usuários', icon: <FaUsers size={20} /> },
+    { path: '/socios', name: 'Sócios', icon: <FaUsers size={20} /> },
     { path: '/spaces', name: 'Espaços', icon: <FaCalendarAlt size={20} /> },
     { path: '/events', name: 'Eventos', icon: <FaCalendarAlt size={20} /> },
     { path: '/championships', name: 'Campeonatos', icon: <FaTrophy size={20} /> },

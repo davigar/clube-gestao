@@ -4,7 +4,7 @@ const PaymentSchema = new mongoose.Schema(
   {
     user: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Socio',
       required: true,
     },
     amount: {

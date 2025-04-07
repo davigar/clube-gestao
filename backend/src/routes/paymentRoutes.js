@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Payment = require('../models/Payment');
-const User = require('../models/User');
+const Socio = require('../models/Socio');
 const jwt = require('jsonwebtoken');
 
 // Middleware de autenticação
@@ -14,13 +14,13 @@ const authMiddleware = async (req, res, next) => {
     }
     
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    const socio = await Socio.findById(decoded.id);
     
-    if (!user) {
-      return res.status(401).json({ message: 'Usuário não encontrado' });
+    if (!socio) {
+      return res.status(401).json({ message: 'Sócio não encontrado' });
     }
     
-    req.user = user;
+    req.socio = socio;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token inválido' });
@@ -29,7 +29,7 @@ const authMiddleware = async (req, res, next) => {
 
 // Middleware de autorização para admin e manager
 const adminManagerMiddleware = (req, res, next) => {
-  if (req.user.role !== 'admin' && req.user.role !== 'manager') {
+  if (req.socio.role !== 'admin' && req.socio.role !== 'manager') {
     return res.status(403).json({ message: 'Acesso negado. Apenas administradores e gerentes podem realizar esta ação.' });
   }
   next();
@@ -58,10 +58,10 @@ router.get('/:id', authMiddleware, async (req, res) => {
       return res.status(404).json({ message: 'Pagamento não encontrado' });
     }
     
-    // Verificar se o usuário é o dono do pagamento ou admin/manager
-    if (payment.user._id.toString() !== req.user._id.toString() && 
-        req.user.role !== 'admin' && 
-        req.user.role !== 'manager') {
+    // Verificar se o sócio é o dono do pagamento ou admin/manager
+    if (payment.user._id.toString() !== req.socio._id.toString() && 
+        req.socio.role !== 'admin' && 
+        req.socio.role !== 'manager') {
       return res.status(403).json({ message: 'Acesso negado' });
     }
     
@@ -84,10 +84,10 @@ router.post('/', authMiddleware, adminManagerMiddleware, async (req, res) => {
       relatedEntityModel, 
     } = req.body;
     
-    // Verificar se o usuário existe
-    const userExists = await User.findById(user);
-    if (!userExists) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+    // Verificar se o sócio existe
+    const socioExists = await Socio.findById(user);
+    if (!socioExists) {
+      return res.status(404).json({ message: 'Sócio não encontrado' });
     }
     
     const payment = new Payment({
@@ -158,7 +158,7 @@ router.put('/:id', authMiddleware, adminManagerMiddleware, async (req, res) => {
 // Excluir pagamento (apenas admin)
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
+    if (req.socio.role !== 'admin') {
       return res.status(403).json({ message: 'Acesso negado. Apenas administradores podem excluir pagamentos.' });
     }
     
@@ -249,8 +249,8 @@ router.post('/:id/register-payment', authMiddleware, adminManagerMiddleware, asy
     
     await payment.save();
     
-    // Atualizar data do último pagamento do usuário
-    await User.findByIdAndUpdate(payment.user, { lastPayment: new Date() });
+    // Atualizar data do último pagamento do sócio
+    await Socio.findByIdAndUpdate(payment.user, { lastPayment: new Date() });
     
     res.json({
       message: 'Pagamento registrado com sucesso',
@@ -264,7 +264,7 @@ router.post('/:id/register-payment', authMiddleware, adminManagerMiddleware, asy
 // Listar pagamentos do usuário logado
 router.get('/my/payments', authMiddleware, async (req, res) => {
   try {
-    const payments = await Payment.find({ user: req.user._id })
+    const payments = await Payment.find({ user: req.socio._id })
       .sort({ dueDate: -1 });
     
     res.json(payments);

@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Championship = require('../models/Championship');
-const User = require('../models/User');
+const Socio = require('../models/Socio');
 const jwt = require('jsonwebtoken');
 
 // Middleware de autenticação
@@ -14,13 +14,13 @@ const authMiddleware = async (req, res, next) => {
     }
     
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    const user = await User.findById(decoded.id);
+    const socio = await Socio.findById(decoded.id);
     
-    if (!user) {
-      return res.status(401).json({ message: 'Usuário não encontrado' });
+    if (!socio) {
+      return res.status(401).json({ message: 'Sócio não encontrado' });
     }
     
-    req.user = user;
+    req.socio = socio;
     next();
   } catch (error) {
     res.status(401).json({ message: 'Token inválido' });
@@ -29,7 +29,7 @@ const authMiddleware = async (req, res, next) => {
 
 // Middleware de autorização para admin e manager
 const adminManagerMiddleware = (req, res, next) => {
-  if (req.user.role !== 'admin' && req.user.role !== 'manager') {
+  if (req.socio.role !== 'admin' && req.socio.role !== 'manager') {
     return res.status(403).json({ message: 'Acesso negado. Apenas administradores e gerentes podem realizar esta ação.' });
   }
   next();
@@ -162,7 +162,7 @@ router.put('/:id', authMiddleware, adminManagerMiddleware, async (req, res) => {
 // Excluir campeonato (apenas admin)
 router.delete('/:id', authMiddleware, async (req, res) => {
   try {
-    if (req.user.role !== 'admin') {
+    if (req.socio.role !== 'admin') {
       return res.status(403).json({ message: 'Acesso negado. Apenas administradores podem excluir campeonatos.' });
     }
     
@@ -183,10 +183,10 @@ router.post('/:id/convoke', authMiddleware, adminManagerMiddleware, async (req, 
   try {
     const { userId, category } = req.body;
     
-    // Verificar se o usuário existe
-    const user = await User.findById(userId);
-    if (!user) {
-      return res.status(404).json({ message: 'Usuário não encontrado' });
+    // Verificar se o sócio existe
+    const socio = await Socio.findById(userId);
+    if (!socio) {
+      return res.status(404).json({ message: 'Sócio não encontrado' });
     }
     
     const championship = await Championship.findById(req.params.id);
@@ -239,7 +239,7 @@ router.put('/:id/participation', authMiddleware, async (req, res) => {
     
     // Encontrar participante
     const participantIndex = championship.participants.findIndex(
-      (p) => p.user.toString() === req.user._id.toString(),
+      (p) => p.user.toString() === req.socio._id.toString(),
     );
     
     if (participantIndex === -1) {
@@ -323,11 +323,11 @@ router.get('/sport/:sport', async (req, res) => {
   }
 });
 
-// Listar campeonatos do usuário
+// Listar campeonatos do sócio
 router.get('/my/participations', authMiddleware, async (req, res) => {
   try {
     const championships = await Championship.find({
-      'participants.user': req.user._id,
+      'participants.user': req.socio._id,
     }).sort({ startDate: 1 });
     
     res.json(championships);

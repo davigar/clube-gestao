@@ -1,7 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 
-const UserSchema = new mongoose.Schema(
+const SocioSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -63,7 +63,7 @@ const UserSchema = new mongoose.Schema(
 );
 
 // Hash da senha antes de salvar
-UserSchema.pre('save', async function (next) {
+SocioSchema.pre('save', async function (next) {
   if (!this.isModified('password')) return next();
   
   try {
@@ -76,10 +76,10 @@ UserSchema.pre('save', async function (next) {
 });
 
 // Método para verificar senha
-UserSchema.methods.comparePassword = async function (candidatePassword) {
+SocioSchema.methods.comparePassword = async function (candidatePassword) {
   return bcrypt.compare(candidatePassword, this.password);
 };
 
-const User = mongoose.model('User', UserSchema);
+const Socio = mongoose.model('Socio', SocioSchema);
 
-module.exports = User;
+module.exports = Socio;

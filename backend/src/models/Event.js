@@ -22,13 +22,13 @@ const EventSchema = new mongoose.Schema(
     },
     createdBy: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'User',
+      ref: 'Socio',
       required: true,
     },
     attendees: [
       {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'Socio',
       },
     ],
     description: {
