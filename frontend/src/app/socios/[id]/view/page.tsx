@@ -52,7 +52,7 @@ export default function UserViewPage({ params }: UserViewPageProps) {
       setLoading(true);
       try {
         // Em um cenário real, isso seria uma chamada à API
-        // const response = await fetch(`/api/users/${id}`);
+        // const response = await fetch(`/api/socios/${id}`);
         // const data = await response.json();
         
         // Dados simulados para demonstração
@@ -278,8 +278,8 @@ export default function UserViewPage({ params }: UserViewPageProps) {
             }
           }
         } else {
-          setError('Usuário não encontrado');
-          setTimeout(() => router.push('/users'), 2000);
+          setError('Sócio não encontrado');
+          setTimeout(() => router.push('/socios'), 2000);
         }
       } catch (error) {
         console.error('Erro ao carregar usuário:', error);
@@ -299,7 +299,7 @@ export default function UserViewPage({ params }: UserViewPageProps) {
 
   // Função para ir para a página de edição
   const handleEdit = () => {
-    router.push(`/users/${id}`);
+    router.push(`/socios/${id}`);
   };
 
   // Renderização condicional durante o carregamento
@@ -379,7 +379,7 @@ export default function UserViewPage({ params }: UserViewPageProps) {
     <MainLayout>
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Detalhes do Usuário</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Detalhes do Sócio</h1>
           <p className="text-gray-600">ID: {id}</p>
         </div>
         <div className="flex space-x-2">
@@ -463,7 +463,7 @@ export default function UserViewPage({ params }: UserViewPageProps) {
                   <div className="flex items-center mb-3">
                     <FaUserFriends className="text-gray-500 mr-2" />
                     <span className="text-sm text-gray-600">
-                      Membro Titular: <a href={`/users/${mainMember.id}/view`} className="text-blue-600 hover:underline">{mainMember.name}</a>
+                      Membro Titular: <a href={`/socios/${mainMember.id}/view`} className="text-blue-600 hover:underline">{mainMember.name}</a>
                     </span>
                   </div>
                 )}

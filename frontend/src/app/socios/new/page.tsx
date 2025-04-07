@@ -6,11 +6,11 @@ import MainLayout from '@/components/layout/MainLayout';
 import Card from '@/components/ui/Card';
 import { FaSave, FaArrowLeft, FaEnvelope, FaPhone, FaMapMarkerAlt } from 'react-icons/fa';
 
-export default function NewUserPage() {
+export default function NewSocioPage() {
   const router = useRouter();
   
-  // Estado para armazenar os dados do novo usuário
-  const [user, setUser] = useState({
+  // Estado para armazenar os dados do novo sócio
+  const [socio, setSocio] = useState({
     name: '',
     email: '',
     phone: '',
@@ -38,13 +38,13 @@ export default function NewUserPage() {
   // Estado para controlar o envio do formulário
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Função para atualizar os campos do usuário
+  // Função para atualizar os campos do sócio
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     
     if (name.includes('.')) {
       const [parent, child] = name.split('.');
-      setUser(prev => ({
+      setSocio(prev => ({
         ...prev,
         [parent]: {
           ...prev[parent as keyof typeof prev] as object,
@@ -52,11 +52,11 @@ export default function NewUserPage() {
         }
       }));
     } else {
-      setUser(prev => ({ ...prev, [name]: value }));
+      setSocio(prev => ({ ...prev, [name]: value }));
     }
   };
 
-  // Função para salvar o novo usuário
+  // Função para salvar o novo sócio
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
@@ -65,22 +65,22 @@ export default function NewUserPage() {
     try {
       // Simulando uma chamada à API
       // Em um cenário real, isso seria uma chamada à API
-      // const response = await fetch('/api/users', {
+      // const response = await fetch('/api/socios', {
       //   method: 'POST',
       //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(user)
+      //   body: JSON.stringify(socio)
       // });
       
       // Simulando um atraso de rede
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setMessage({ type: 'success', text: 'Usuário criado com sucesso!' });
+      setMessage({ type: 'success', text: 'Sócio criado com sucesso!' });
       
       // Redirecionar após salvar
-      setTimeout(() => router.push('/users'), 2000);
+      setTimeout(() => router.push('/socios'), 2000);
     } catch (error) {
-      console.error('Erro ao criar usuário:', error);
-      setMessage({ type: 'error', text: 'Erro ao criar usuário' });
+      console.error('Erro ao criar sócio:', error);
+      setMessage({ type: 'error', text: 'Erro ao criar sócio' });
     } finally {
       setIsSubmitting(false);
     }
@@ -95,8 +95,8 @@ export default function NewUserPage() {
     <MainLayout>
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Novo Usuário</h1>
-          <p className="text-gray-600">Preencha os dados para criar um novo usuário</p>
+          <h1 className="text-2xl font-bold text-gray-800">Novo Sócio</h1>
+          <p className="text-gray-600">Preencha os dados para criar um novo sócio</p>
         </div>
         <div>
           <button 
@@ -129,7 +129,7 @@ export default function NewUserPage() {
                 <input
                   type="text"
                   name="name"
-                  value={user.name}
+                  value={socio.name}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   required
@@ -148,7 +148,7 @@ export default function NewUserPage() {
                     <input
                       type="email"
                       name="email"
-                      value={user.email}
+                      value={socio.email}
                       onChange={handleChange}
                       className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                       required
@@ -167,7 +167,7 @@ export default function NewUserPage() {
                     <input
                       type="tel"
                       name="phone"
-                      value={user.phone}
+                      value={socio.phone}
                       onChange={handleChange}
                       className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     />
@@ -183,7 +183,7 @@ export default function NewUserPage() {
                   <input
                     type="text"
                     name="cpf"
-                    value={user.cpf}
+                    value={socio.cpf}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     placeholder="000.000.000-00"
@@ -197,7 +197,7 @@ export default function NewUserPage() {
                   <input
                     type="number"
                     name="age"
-                    value={user.age}
+                    value={socio.age}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                     min="0"
@@ -213,7 +213,7 @@ export default function NewUserPage() {
                   </label>
                   <select
                     name="role"
-                    value={user.role}
+                    value={socio.role}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
@@ -229,7 +229,7 @@ export default function NewUserPage() {
                   </label>
                   <select
                     name="status"
-                    value={user.status}
+                    value={socio.status}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
@@ -247,7 +247,7 @@ export default function NewUserPage() {
                   </label>
                   <select
                     name="membershipType"
-                    value={user.membershipType}
+                    value={socio.membershipType}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   >
@@ -265,10 +265,10 @@ export default function NewUserPage() {
                   </label>
                   <select
                     name="mainMemberId"
-                    value={user.mainMemberId || ''}
+                    value={socio.mainMemberId || ''}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    disabled={user.membershipType !== 'family'}
+                    disabled={socio.membershipType !== 'family'}
                   >
                     <option value="">Selecione um membro titular</option>
                     <option value="1">João Silva</option>
@@ -276,7 +276,7 @@ export default function NewUserPage() {
                     <option value="3">Carlos Santos</option>
                   </select>
                   <p className="text-xs text-gray-500 mt-1">
-                    {user.membershipType !== 'family' ? 'Disponível apenas para membros do tipo Família' : ''}
+                    {socio.membershipType !== 'family' ? 'Disponível apenas para membros do tipo Família' : ''}
                   </p>
                 </div>
               </div>
@@ -289,7 +289,7 @@ export default function NewUserPage() {
                   <input
                     type="date"
                     name="createdAt"
-                    value={user.createdAt}
+                    value={socio.createdAt}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -302,7 +302,7 @@ export default function NewUserPage() {
                   <input
                     type="date"
                     name="memberSince"
-                    value={user.memberSince}
+                    value={socio.memberSince}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -315,13 +315,13 @@ export default function NewUserPage() {
                   <input
                     type="date"
                     name="deactivatedAt"
-                    value={user.deactivatedAt}
+                    value={socio.deactivatedAt}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-                    disabled={user.status !== 'inactive'}
+                    disabled={socio.status !== 'inactive'}
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    {user.status !== 'inactive' ? 'Disponível apenas para usuários inativos' : ''}
+                    {socio.status !== 'inactive' ? 'Disponível apenas para sócios inativos' : ''}
                   </p>
                 </div>
               </div>
@@ -339,7 +339,7 @@ export default function NewUserPage() {
                   <input
                     type="text"
                     name="address.street"
-                    value={user.address.street}
+                    value={socio.address.street}
                     onChange={handleChange}
                     className="w-full pl-10 pr-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -354,7 +354,7 @@ export default function NewUserPage() {
                   <input
                     type="text"
                     name="address.city"
-                    value={user.address.city}
+                    value={socio.address.city}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -367,7 +367,7 @@ export default function NewUserPage() {
                   <input
                     type="text"
                     name="address.state"
-                    value={user.address.state}
+                    value={socio.address.state}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -380,7 +380,7 @@ export default function NewUserPage() {
                   <input
                     type="text"
                     name="address.zipCode"
-                    value={user.address.zipCode}
+                    value={socio.address.zipCode}
                     onChange={handleChange}
                     className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                   />
@@ -394,7 +394,7 @@ export default function NewUserPage() {
                 <input
                   type="text"
                   name="address.country"
-                  value={user.address.country}
+                  value={socio.address.country}
                   onChange={handleChange}
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
                 />
@@ -404,10 +404,10 @@ export default function NewUserPage() {
                 <button 
                   type="submit"
                   disabled={isSubmitting}
-                  className={`flex items-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
+                  className="flex items-center justify-center px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors disabled:bg-blue-400"
                 >
                   <FaSave className="mr-2" />
-                  {isSubmitting ? 'Salvando...' : 'Salvar Usuário'}
+                  {isSubmitting ? 'Salvando...' : 'Salvar Sócio'}
                 </button>
               </div>
             </div>

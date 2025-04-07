@@ -227,8 +227,8 @@ export default function UserEditPage({ params }: UserEditPageProps) {
         if (userData) {
           setUser(userData);
         } else {
-          setMessage({ type: 'error', text: 'Usuário não encontrado' });
-          setTimeout(() => router.push('/users'), 2000);
+          setMessage({ type: 'error', text: 'Sócio não encontrado' });
+          setTimeout(() => router.push('/socios'), 2000);
         }
       } catch (error) {
         console.error('Erro ao carregar usuário:', error);
@@ -275,10 +275,10 @@ export default function UserEditPage({ params }: UserEditPageProps) {
       // Simulando um atraso de rede
       await new Promise(resolve => setTimeout(resolve, 1000));
       
-      setMessage({ type: 'success', text: 'Usuário atualizado com sucesso!' });
+      setMessage({ type: 'success', text: 'Sócio atualizado com sucesso!' });
       
       // Redirecionar após salvar
-      setTimeout(() => router.push('/users'), 2000);
+      setTimeout(() => router.push('/socios'), 2000);
     } catch (error) {
       console.error('Erro ao atualizar usuário:', error);
       setMessage({ type: 'error', text: 'Erro ao atualizar usuário' });
@@ -298,10 +298,10 @@ export default function UserEditPage({ params }: UserEditPageProps) {
         // Simulando um atraso de rede
         await new Promise(resolve => setTimeout(resolve, 1000));
         
-        setMessage({ type: 'success', text: 'Usuário excluído com sucesso!' });
+        setMessage({ type: 'success', text: 'Sócio excluído com sucesso!' });
         
         // Redirecionar após excluir
-        setTimeout(() => router.push('/users'), 2000);
+        setTimeout(() => router.push('/socios'), 2000);
       } catch (error) {
         console.error('Erro ao excluir usuário:', error);
         setMessage({ type: 'error', text: 'Erro ao excluir usuário' });
@@ -329,7 +329,7 @@ export default function UserEditPage({ params }: UserEditPageProps) {
     <MainLayout>
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-800">Editar Usuário</h1>
+          <h1 className="text-2xl font-bold text-gray-800">Editar Sócio</h1>
           <p className="text-gray-600">ID: {id}</p>
         </div>
         <div className="flex space-x-2">
