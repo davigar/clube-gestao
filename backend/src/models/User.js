@@ -56,6 +56,54 @@ const UserSchema = new mongoose.Schema(
       zipCode: String,
       country: String,
     },
+    medicalInfo: {
+      medicalTreatment: {
+        dental: { type: Boolean, default: false },
+        physiotherapy: { type: Boolean, default: false },
+        phytotherapy: { type: Boolean, default: false },
+        speechTherapy: { type: Boolean, default: false },
+        medication: { type: Boolean, default: false },
+        psychological: { type: Boolean, default: false },
+        other: { type: Boolean, default: false },
+        otherDescription: { type: String, default: '' },
+      },
+      frequentInfections: {
+        tonsils: { type: Boolean, default: false },
+        skin: { type: Boolean, default: false },
+        nose: { type: Boolean, default: false },
+        mouth: { type: Boolean, default: false },
+        ear: { type: Boolean, default: false },
+        teeth: { type: Boolean, default: false },
+        lung: { type: Boolean, default: false },
+        hemorrhage: { type: Boolean, default: false },
+        other: { type: Boolean, default: false },
+        otherDescription: { type: String, default: '' },
+      },
+      epilepsyOrSeizure: {
+        hasCondition: { type: Boolean, default: false },
+        description: { type: String, default: '' },
+      },
+      allergicProblem: {
+        hasCondition: { type: Boolean, default: false },
+        description: { type: String, default: '' },
+      },
+      heartProblem: {
+        hasCondition: { type: Boolean, default: false },
+        description: { type: String, default: '' },
+      },
+      bloodProblem: {
+        hasCondition: { type: Boolean, default: false },
+        description: { type: String, default: '' },
+      },
+      diabetesProblem: {
+        hasCondition: { type: Boolean, default: false },
+        description: { type: String, default: '' },
+      },
+      boneProblem: {
+        hasCondition: { type: Boolean, default: false },
+        description: { type: String, default: '' },
+      },
+    },
   },
   {
     timestamps: true,
