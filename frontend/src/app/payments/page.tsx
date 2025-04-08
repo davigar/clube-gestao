@@ -93,7 +93,6 @@ export default function PaymentsPage() {
         return { text: status, color: 'bg-gray-100 text-gray-800' };
     }
   };
-
   return (
     <MainLayout>
       <div className="mb-6">

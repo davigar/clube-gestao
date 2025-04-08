@@ -87,7 +87,6 @@ export default function ChampionshipsPage() {
         return '🏆';
     }
   };
-
   return (
     <MainLayout>
       <div className="mb-6">

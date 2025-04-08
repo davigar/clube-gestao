@@ -37,7 +37,7 @@ const adminMiddleware = (req, res, next) => {
 // Registro de sócio
 router.post('/register', async (req, res) => {
   try {
-    const { name, email, password, phone, role } = req.body;
+    const { name, email, password, phone, role, address, medicalInfo } = req.body;
     
     // Verificar se o sócio já existe
     const existingSocio = await Socio.findOne({ email });
@@ -52,6 +52,8 @@ router.post('/register', async (req, res) => {
       password,
       phone,
       role: role || 'member',
+      address,
+      medicalInfo,
     });
     
     await socio.save();
@@ -126,12 +128,22 @@ router.get('/profile', authMiddleware, async (req, res) => {
 // Atualizar perfil do sócio
 router.put('/profile', authMiddleware, async (req, res) => {
   try {
-    const { name, email, phone, address } = req.body;
+    const { name, email, phone, address, medicalInfo } = req.body;
+    
+    const updateData = { name, email, phone };
+    
+    if (address) {
+      updateData.address = address;
+    }
+    
+    if (medicalInfo) {
+      updateData.medicalInfo = medicalInfo;
+    }
     
     // Atualizar sócio
     const updatedSocio = await Socio.findByIdAndUpdate(
       req.socio._id,
-      { name, email, phone, address },
+      updateData,
       { new: true },
     ).select('-password');
     
@@ -172,11 +184,21 @@ router.get('/:id', authMiddleware, adminMiddleware, async (req, res) => {
 // Atualizar sócio por ID (apenas admin)
 router.put('/:id', authMiddleware, adminMiddleware, async (req, res) => {
   try {
-    const { name, email, phone, role, status, membershipType } = req.body;
+    const { name, email, phone, role, status, membershipType, address, medicalInfo } = req.body;
+    
+    const updateData = { name, email, phone, role, status, membershipType };
+    
+    if (address) {
+      updateData.address = address;
+    }
+    
+    if (medicalInfo) {
+      updateData.medicalInfo = medicalInfo;
+    }
     
     const updatedSocio = await Socio.findByIdAndUpdate(
       req.params.id,
-      { name, email, phone, role, status, membershipType },
+      updateData,
       { new: true },
     ).select('-password');
     
